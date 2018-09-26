@@ -1,0 +1,267 @@
+<!doctype html>
+<!--[if IE 7 ]>
+<html class="no-js ie ie7 lte7 lte8 lte9" lang="en-US">
+   <![endif]-->
+   <!--[if IE 8 ]>
+   <html class="no-js ie ie8 lte8 lte9" lang="en-US">
+      <![endif]-->
+      <!--[if IE 9 ]>
+      <html class="no-js ie ie9 lte9>" lang="en-US">
+         <![endif]-->
+         <!--[if (gt IE 9)|!(IE)]><!-->
+         <html class="no-js" lang="en-US">
+            <!--<![endif]-->
+            <head data-live-domain="jqueryui.com">
+               <meta charset="utf-8">
+               <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+               <link rel="stylesheet" href="styles/main.css">
+               <style type="text/css">
+                 .pageText{
+                   margin-top:-10px;
+                 }
+                 .pageText a{
+                   text-decoration: underline;
+                 }
+
+                 .pageText ul{
+                   margin: 2px;
+                 }
+
+                 .textSection{
+                   padding: 8px 0 5px 0;
+                   line-height: 24px;
+                 }
+
+                 .linkNoStyle{
+                   text-decoration: none !important;
+                   color:inherit !important;
+                 }
+				 
+				 .logoHolder img{
+				   width: 341px;
+				   height: 40px;
+				 }
+				 
+                 </style>
+               </div>
+               <title>API Documentation</title>
+            </head>
+            <body>
+               <div class="pageContent">
+                  <div class="headerDiv">
+                     <div class="logoHolder">
+                        <img src="images/logo_PDC.png"/>
+                     </div>
+                     <div class="topNavHolder">
+                        <!--<div class="searchBox">
+                           <div class="searchInput"><input type="text"/></div>
+                           <div class="searchIcon"><img src="images/searchIcon.png"/></div>
+                           </div>
+                           <div class="topNav">
+                           <div class="topNavLinkHolder">Sign Up</div>
+                           <div class="topNavLinkHolder">Login</div>
+                           </div>-->
+                     </div>
+                  </div>
+                  <div class="contentBG">
+                  </div>
+                  <div class="contentArea">
+                     <div class="pageText">
+                       <div class="textSection">
+                         <h3>PDC GraphQL API Overview</h3>
+
+                         <p>
+                         The PDC GraphQL API allows for more efficient retrieval of data by enabling to fetch multiple, nested resources in a single request. The API is based on the data model and data dictionary described <a href="http://pdc.esacinc.com/data-dictionary/dictionary.html" target="_blank">here</a>.
+                       </p>
+
+                        <p>
+                         The PDC GraphQL API is currently in alpha.</br>
+                       </p>
+
+                         On this page:
+
+                         <ul>
+                         <li><a href="#Getting_started">Getting started</a></li>
+                         <li><a href="#Endpoint">Endpoint</a></li>
+                         <li><a href="#Authentication">Authentication</a></li>
+                         <li><a href="#Performing_requests">Performing requests with curl</a></li>
+                         <li><a href="#Schema">Schema</a></li>
+                         <li><a href="#GraphQL">GraphQL+ Python Example</a></li>
+                         <li><a href="#Learning_more">Learning more about GraphQL</a></li>
+                        </ul>
+                      </div>
+                      <div class="textSection">
+                        <h3><a class="linkNoStyle" name="Getting_started" id="Getting_started">Getting started</a></h3>
+
+                       The quickest way to get started with the GraphQL API is to <a href="http://pdc.esacinc.com/graphiql" target="_blank">PDC GraphQL Explorer</a>:
+                       <br/>
+                       <img border="0" width="468" height="206" src="images/image001.png"/>
+                     </div>
+
+
+                       <div class="textSection">
+                         <h3><a class="linkNoStyle" name="Endpoint" id="Endpoint">Endpoint</a></h3>
+
+                       The GraphQL API endpoint is http://pdc.esacinc.com/graphql. All requests must be HTTP POST requests with application/json encoded bodies.
+                      </div>
+
+                       <div class="textSection">
+                         <h3><a class="linkNoStyle" name="Authentication" id="Authentication">Authentication</a></h3>
+
+                       PDC GraphQL is open access.
+                     </div>
+
+                     <div class="textSection">
+                       <h3><a class="linkNoStyle" name="Performing_requests" id="Performing_requests">Performing requests with curl</a></h3>
+
+                       A GraphQL request is a standard HTTPS POST request, with a JSON-encoded body containing a "query" key, and optionally a "variables" key.
+
+                       For example, the following curl command returns the case submitter id project submitter id disease typeproperties for a queried case:
+                       <pre>
+   curl http://pdc.esacinc.com/graphql \
+   -H "Content-Type: application/json" \
+   -d '{"query": "{ case(case_submitter_id: \"01BR001\") \
+   { case_submitter_id project_submitter_id disease_type }}"}'
+
+   {
+    "data": {
+    "case": {
+    "case_submitter_id": "01BR001",
+    "project_submitter_id": "CPTAC-2",
+    "disease_type": "Breast Invasive Carcinoma"
+    }
+    }
+   }
+                     </pre>
+                   </div>
+                     <div class="textSection">
+                       <h3><a class="linkNoStyle" name="Schema" id="Schema">Schema</a></h3>
+
+                       Click here for Swagger documentation of exposed schema (full list of fields and types) that you can explore using the <a href="http://pdc.esacinc.com/graphiql" target="_blank">PDC GraphQL Explorer</a>.
+                     </div>
+                     <div class="textSection">
+                       <h3><a class="linkNoStyle" name="GraphQL" id="GraphQL">GraphQL+Python Example</a></h3>
+
+                       Below is an example of querying PDC GraphQL API with Python. Click <a href="/API_documentation/pdc-jupyter-python-examples.html" target="_blank">here</a> for more examples.
+                     </div>
+
+                      <pre>
+  #Get details about a single study
+  import requests
+  import json
+
+  # The URL for our API calls
+  url = 'https://pdc.esacinc.com/graphql'
+
+  # query to get study summary details
+
+  query = '''{
+          uiStudy(study_submitter_id: "S016-1") {
+          submitter_id_name
+          program_name
+          project_name
+          disease_type
+          primary_site
+          analytical_fraction
+          experiment_type
+          cases_count
+          num_raw
+          num_mzml
+          num_prot
+          num_prot_assem
+          num_psm
+          }
+
+  }'''
+
+
+  response = requests.post(url, json={'query': query})
+
+  if(response.ok):
+      #If the response was OK then print the returned JSON
+      jData = json.loads(response.content)
+
+      print (json.dumps(jData, indent=4, sort_keys=True))
+  else:
+      # If response code is not ok (200), print the resulting http error code with description
+      response.raise_for_status()
+
+  OUTPUT
+
+  {
+      "data": {
+          "uiStudy": [
+              {
+                  "analytical_fraction": "Proteome",
+                  "cases_count": 60,
+                  "disease_type": "Colon Adenocarcinoma",
+                  "experiment_type": "Label Free",
+                  "num_mzml": 1425,
+                  "num_prot": 5,
+                  "num_prot_assem": 4,
+                  "num_psm": 2850,
+                  "num_raw": 1425,
+                  "primary_site": "Colon",
+                  "program_name": "Clinical Proteomic Tumor Analysis Consortium",
+                  "project_name": "CPTAC-Retrospective",
+                  "submitter_id_name": "TCGA_Colon_Cancer_Proteome"
+              },
+              {
+                  "analytical_fraction": "Proteome",
+                  "cases_count": 30,
+                  "disease_type": "Rectum Adenocarcinoma",
+                  "experiment_type": "Label Free",
+                  "num_mzml": 1425,
+                  "num_prot": 5,
+                  "num_prot_assem": 4,
+                  "num_psm": 2850,
+                  "num_raw": 1425,
+                  "primary_site": "Rectum",
+                  "program_name": "Clinical Proteomic Tumor Analysis Consortium",
+                  "project_name": "CPTAC-Retrospective",
+                  "submitter_id_name": "TCGA_Colon_Cancer_Proteome"
+              }
+          ]
+      }
+  }
+                    </pre>
+                    <div class="textSection">
+                      <h3><a class="linkNoStyle" name="Learning_more" id="Learning_more">Learning more about GraphQL</a></h3>
+
+                       Further resources for learning more about GraphQL:
+
+                       <ul>
+                         <li><a href="https://graphql.org/learn/" target="_blank">graphql.org/learn</a> — The Learn section of the official GraphQL website</li>
+                      </ul>
+                     </div>
+
+
+
+                     </div>
+                  </div>
+                  </div>
+                  <!--Footer-->
+                  <div class="footer">
+                     <div class="footerLinks">
+                        <span class="footerLink">Policies</span>
+                        <span class="footerLinkSep">|</span>
+                        <span class="footerLink">Accessibility</span>
+                        <span class="footerLinkSep">|</span>
+                        <span class="footerLink">Viewing Files</span>
+                        <span class="footerLinkSep">|</span>
+                        <span class="footerLink">FOIA</span>
+                     </div>
+                     <div class="footerLinks">
+                        <span class="footerLink">U.S. Department of Health and Human Services</span>
+                        <span class="footerLinkSep">.</span>
+                        <span class="footerLink">National Institute of Health</span>
+                        <span class="footerLinkSep">|</span>
+                        <span class="footerLink">National Cancer Institute</span>
+                        <span class="footerLinkSep">|</span>
+                        <span class="footerLink">USA.gov</span>
+                     </div>
+                     <div class="footerLinks">NIH… Turning Discovery Into Health &reg;</div>
+                  </div>
+
+            </body>
+         </html>
